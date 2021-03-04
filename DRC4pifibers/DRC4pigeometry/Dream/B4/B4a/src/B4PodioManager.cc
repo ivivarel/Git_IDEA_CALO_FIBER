@@ -93,3 +93,16 @@ bool B4PodioManager::Finish()
   return true;
 }
 
+void B4PodioManager::FinishEvent()
+{
+
+  B4PodioManager* podioManager = B4PodioManager::Instance();
+  podio::EventStore * l_evtstore = podioManager->GetEvtStore();
+  if (l_evtstore == NULL) return ;
+  podio::ROOTWriter * l_writer = podioManager->GetWriter();
+    G4AutoLock lock(&B4PodioActionMutex);
+  l_writer->writeEvent();
+  l_evtstore->clearCollections();
+}
+
+    

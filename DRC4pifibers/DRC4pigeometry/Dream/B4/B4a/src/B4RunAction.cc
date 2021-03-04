@@ -130,6 +130,8 @@ void B4RunAction::EndOfRunAction(const G4Run* /*run*/)
 
   B4PodioManager * podioManager = B4PodioManager::Instance();
   podioManager->Finish();
+
+  std::cout << "Returning from EndOfRunAction" << std::endl;
   
 }
 

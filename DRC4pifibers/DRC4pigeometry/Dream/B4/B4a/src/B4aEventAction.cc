@@ -296,14 +296,21 @@ void B4aEventAction::EndOfEventAction(const G4Event* event)
 void B4aEventAction::PrepareForRun()
 {
   B4PodioManager* podioManager = B4PodioManager::Instance();
+
+  s_caloHits = podioManager->Register<edm4hep::SimCalorimeterHitCollection>("S_caloHits");
+  c_caloHits = podioManager->Register<edm4hep::SimCalorimeterHitCollection>("C_caloHits");
+  aux_infoHits = podioManager->Register<edm4hep::SimCalorimeterHitCollection>("Auxiliary_infoHits");
+  //s_caloHitContributions = podioManager->Register<edm4hep::CaloHitContributionCollection>("S_caloHitContrib");
+  //s_caloHitContributions = podioManager->Register<edm4hep::CaloHitContributionCollection>("S_caloHitContrib");
+  //c_caloHitContributions = podioManager->Register<edm4hep::CaloHitContributionCollection>("C_caloHitContrib");
   
   G4AutoLock lock(&B4aEventActionMutex);
   
   podio::EventStore * l_evtstore = podioManager->GetEvtStore();
   if (l_evtstore == NULL) return;
   podio::ROOTWriter * l_writer = podioManager->GetWriter();
-
-  s_caloHits = new edm4hep::SimCalorimeterHitCollection();
+  /*
+    s_caloHits = new edm4hep::SimCalorimeterHitCollection();
   l_evtstore->registerCollection("S_caloHits",s_caloHits);
   l_writer->registerForWrite("S_caloHits");
 
@@ -314,14 +321,24 @@ void B4aEventAction::PrepareForRun()
   aux_infoHits = new edm4hep::SimCalorimeterHitCollection();
   l_evtstore->registerCollection("Auxiliary_infoHits",aux_infoHits);
   l_writer->registerForWrite("Auxiliary_infoHits");
-
+  */
   s_caloHitContributions = new edm4hep::CaloHitContributionCollection();
   l_evtstore->registerCollection("S_caloHitContrib",s_caloHitContributions);
   l_writer->registerForWrite("S_caloHitContrib");
-
+  
   c_caloHitContributions = new edm4hep::CaloHitContributionCollection();
   l_evtstore->registerCollection("C_caloHitContrib",c_caloHitContributions);
   l_writer->registerForWrite("C_caloHitContrib");
+  
+  
+  /* B4PodioManager* podioManager = B4PodioManager::Instance();
+  
+  s_caloHits = podioManager->Register<edm4hep::SimCalorimeterHitCollection>("S_caloHits");
+  c_caloHits = podioManager->Register<edm4hep::SimCalorimeterHitCollection>("C_caloHits");
+  aux_infoHits = podioManager->Register<edm4hep::SimCalorimeterHitCollection>("Auxiliary_infoHits");
+  
+  s_caloHitContributions = podioManager->Register<edm4hep::CaloHitContributionCollection>("S_caloHitContrib");
+  c_caloHitContributions = podioManager->Register<edm4hep::CaloHitContributionCollection>("C_caloHitContrib");*/
   
 }
 
